@@ -1,0 +1,16 @@
+# Python virtual environments and generated caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Local environment and operating-system files
+.env
+.DS_Store
+Thumbs.db
+
+# Build output
+build/
+dist/

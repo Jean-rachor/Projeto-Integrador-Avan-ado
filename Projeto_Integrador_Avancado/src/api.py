@@ -9,6 +9,7 @@ import joblib
 import numpy as np
 import pandas as pd
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from starlette.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field
 
@@ -17,6 +18,11 @@ MODEL_VERSION = os.getenv("MODEL_VERSION", "1.0.0")
 app = FastAPI(title="AeroMotion Predictive Maintenance API", version=MODEL_VERSION)
 model = joblib.load(MODEL_PATH) if MODEL_PATH.exists() else None
 history = defaultdict(lambda: deque(maxlen=200))
+
+@app.get("/", include_in_schema=False)
+async def root():
+    """Serve the predictive maintenance dashboard to browser visitors."""
+    return FileResponse(Path(__file__).parent / "static" / "index.html")
 
 def _naive_utc(ts: datetime) -> datetime:
     return ts.astimezone(timezone.utc).replace(tzinfo=None) if ts.tzinfo is not None else ts

@@ -11,6 +11,7 @@ Pacote de análise industrial com notebook, relatório técnico, modelos, API e 
 - `src/pipeline.py`: tratamento e treino temporal.
 - `src/vision.py`: inspeção geométrica por Canny e segmentação térmica HSV.
 - `src/api.py`: FastAPI com `/predict`, `/predict-batch`, `/health` e `/docs`.
+- `src/static/index.html`: painel web responsivo servido em `/`, com análise integrada à API.
 - `Dockerfile`, `docker-compose.yml`, `requirements-api.txt`: implantação em container.
 - `planos/mlops.md`: plano de monitoramento e governança.
 
@@ -24,8 +25,10 @@ python -m src.pipeline dados/sensores.csv --out artifacts
 python analises/gera.py
 python scripts/rel.py
 python -m pytest -q
-uvicorn src.api:app --host 0.0.0.0 --port 8000
+python -m uvicorn src.api:app --host 0.0.0.0 --port 8000
 ```
+
+Abra `http://127.0.0.1:8000/` para usar o painel. A documentação interativa da API está em `http://127.0.0.1:8000/docs`.
 
 Para iniciar o container, após gerar os artefatos use `docker compose up --build`.
 
